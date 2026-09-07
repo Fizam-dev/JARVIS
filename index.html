@@ -1101,8 +1101,8 @@
                 cmd = cmd.replace(/^(hey |hello |hi |yo )?(jarvis|javis|jervis)\s*/i, '');
             }
 
-            if (/^(good morning|selamat pagi)/i.test(cmd)) {
-                jarvisSay('Good morning, sir. All systems are operational. Ready for your instructions.');
+            if (/^(good morning|selamat pagi| are you up jarvis)/i.test(cmd)) {
+                jarvisSay('For you sir always.');
                 return;
             }
             if (/^(good afternoon|selamat petang)/i.test(cmd)) {
