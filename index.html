@@ -1,5 +1,6 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,9 @@
     <meta name="description" content="JARVIS AI Assistant — Voice-controlled, inspired by Tony Stark's AI">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
     <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
     <script type="importmap">
         {
@@ -18,7 +21,13 @@
         }
     </script>
     <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         :root {
             --j-blue: #4fc3f7;
@@ -38,81 +47,148 @@
             font-family: 'Rajdhani', 'Segoe UI', sans-serif;
             cursor: default;
             user-select: none;
-            width: 100vw; height: 100vh;
+            width: 100vw;
+            height: 100vh;
         }
 
         #canvas-container {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 1;
         }
 
         /* ═══ Boot Overlay ═══ */
         #boot-overlay {
-            position: fixed; inset: 0; z-index: 200;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             background: var(--j-dark);
             transition: opacity 1.4s ease;
             cursor: pointer;
         }
-        #boot-overlay.hidden { opacity: 0; pointer-events: none; }
 
-        .boot-rings { position: relative; width: 100px; height: 100px; margin-bottom: 36px; display: flex; align-items: center; justify-content: center; }
+        #boot-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .boot-rings {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .boot-ring-outer {
-            position: absolute; width: 100px; height: 100px;
+            position: absolute;
+            width: 100px;
+            height: 100px;
             border: 2px solid transparent;
-            border-top-color: var(--j-blue); border-right-color: rgba(79,195,247,0.2);
-            border-radius: 50%; animation: spin 1.2s linear infinite;
+            border-top-color: var(--j-blue);
+            border-right-color: rgba(79, 195, 247, 0.2);
+            border-radius: 50%;
+            animation: spin 1.2s linear infinite;
         }
+
         .boot-ring-mid {
-            position: absolute; width: 72px; height: 72px;
+            position: absolute;
+            width: 72px;
+            height: 72px;
             border: 1.5px solid transparent;
-            border-bottom-color: var(--j-cyan); border-left-color: rgba(0,229,255,0.2);
-            border-radius: 50%; animation: spin 0.8s linear infinite reverse;
+            border-bottom-color: var(--j-cyan);
+            border-left-color: rgba(0, 229, 255, 0.2);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite reverse;
         }
+
         .boot-ring-inner {
-            position: absolute; width: 44px; height: 44px;
+            position: absolute;
+            width: 44px;
+            height: 44px;
             border: 1px solid transparent;
             border-top-color: var(--j-core);
-            border-radius: 50%; animation: spin 0.5s linear infinite;
+            border-radius: 50%;
+            animation: spin 0.5s linear infinite;
         }
+
         .boot-dot {
-            width: 6px; height: 6px; border-radius: 50%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
             background: var(--j-cyan);
-            box-shadow: 0 0 12px var(--j-cyan), 0 0 30px rgba(0,229,255,0.3);
+            box-shadow: 0 0 12px var(--j-cyan), 0 0 30px rgba(0, 229, 255, 0.3);
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         .boot-title {
             font-family: 'Orbitron', monospace;
-            color: var(--j-blue); font-size: 16px;
-            letter-spacing: 8px; text-transform: uppercase;
+            color: var(--j-blue);
+            font-size: 16px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
             animation: pulse 2s ease-in-out infinite;
         }
+
         .boot-sub {
-            color: rgba(79,195,247,0.35); font-size: 11px;
-            letter-spacing: 5px; margin-top: 10px;
+            color: rgba(79, 195, 247, 0.35);
+            font-size: 11px;
+            letter-spacing: 5px;
+            margin-top: 10px;
             font-family: 'Share Tech Mono', monospace;
         }
+
         .boot-click {
-            color: rgba(79,195,247,0.5); font-size: 12px;
-            letter-spacing: 3px; margin-top: 40px;
+            color: rgba(79, 195, 247, 0.5);
+            font-size: 12px;
+            letter-spacing: 3px;
+            margin-top: 40px;
             animation: pulse 1.5s ease-in-out infinite;
             font-family: 'Rajdhani', sans-serif;
         }
-        @keyframes pulse { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
 
         /* ═══ JARVIS Title ═══ */
         #jarvis-title {
-            position: fixed; top: 50%; left: 50%;
+            position: fixed;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 10; pointer-events: none;
+            z-index: 10;
+            pointer-events: none;
             text-align: center;
-            opacity: 0; transition: opacity 2.5s ease;
+            opacity: 0;
+            transition: opacity 2.5s ease;
         }
-        #jarvis-title.visible { opacity: 1; }
+
+        #jarvis-title.visible {
+            opacity: 1;
+        }
 
         .jarvis-name {
             font-family: 'Orbitron', monospace;
@@ -121,79 +197,159 @@
             letter-spacing: clamp(10px, 2.5vw, 36px);
             color: transparent;
             background: linear-gradient(180deg,
-                rgba(255,255,255,0.95) 0%, var(--j-core) 35%,
-                var(--j-blue) 65%, rgba(0,176,255,0.5) 100%);
-            background-clip: text; -webkit-background-clip: text;
-            filter: drop-shadow(0 0 25px rgba(79,195,247,0.4));
+                    rgba(255, 255, 255, 0.95) 0%, var(--j-core) 35%,
+                    var(--j-blue) 65%, rgba(0, 176, 255, 0.5) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            filter: drop-shadow(0 0 25px rgba(79, 195, 247, 0.4));
             animation: nameBreath 4s ease-in-out infinite;
         }
+
         .jarvis-sub {
             font-family: 'Share Tech Mono', monospace;
             font-weight: 400;
             font-size: clamp(7px, 1.2vw, 12px);
             letter-spacing: clamp(3px, 1vw, 10px);
-            color: rgba(79,195,247,0.35);
-            text-transform: uppercase; margin-top: 10px;
+            color: rgba(79, 195, 247, 0.35);
+            text-transform: uppercase;
+            margin-top: 10px;
             animation: subFlick 5s ease-in-out infinite;
         }
+
         @keyframes nameBreath {
-            0%,100% { filter: drop-shadow(0 0 20px rgba(79,195,247,0.25)); opacity:0.8; }
-            50% { filter: drop-shadow(0 0 50px rgba(79,195,247,0.55)); opacity:1; }
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 20px rgba(79, 195, 247, 0.25));
+                opacity: 0.8;
+            }
+
+            50% {
+                filter: drop-shadow(0 0 50px rgba(79, 195, 247, 0.55));
+                opacity: 1;
+            }
         }
-        @keyframes subFlick { 0%,100%{opacity:0.25;} 40%{opacity:0.4;} 60%{opacity:0.35;} }
+
+        @keyframes subFlick {
+
+            0%,
+            100% {
+                opacity: 0.25;
+            }
+
+            40% {
+                opacity: 0.4;
+            }
+
+            60% {
+                opacity: 0.35;
+            }
+        }
 
         /* ═══ Status & Transcript ═══ */
         #status-bar {
-            position: fixed; bottom: 80px; left: 50%;
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
             transform: translateX(-50%);
-            z-index: 20; text-align: center;
+            z-index: 20;
+            text-align: center;
             pointer-events: none;
-            opacity: 0; transition: opacity 1.5s ease;
+            opacity: 0;
+            transition: opacity 1.5s ease;
         }
-        #status-bar.visible { opacity: 1; }
+
+        #status-bar.visible {
+            opacity: 1;
+        }
 
         #status-state {
             font-family: 'Orbitron', monospace;
-            font-size: 10px; letter-spacing: 4px;
+            font-size: 10px;
+            letter-spacing: 4px;
             text-transform: uppercase;
             color: var(--j-blue);
             transition: color 0.5s ease;
         }
-        #status-state.listening { color: var(--j-listen); }
-        #status-state.speaking { color: var(--j-speak); }
-        #status-state.error { color: var(--j-error); }
+
+        #status-state.listening {
+            color: var(--j-listen);
+        }
+
+        #status-state.speaking {
+            color: var(--j-speak);
+        }
+
+        #status-state.error {
+            color: var(--j-error);
+        }
 
         .mic-indicator {
-            display: inline-block; width: 6px; height: 6px;
-            border-radius: 50%; margin-right: 8px;
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-right: 8px;
             background: var(--j-blue);
             transition: all 0.5s ease;
             vertical-align: middle;
         }
-        .mic-indicator.listening { background: var(--j-listen); box-shadow: 0 0 12px var(--j-listen); animation: micPulse 1s ease-in-out infinite; }
-        .mic-indicator.speaking { background: var(--j-speak); box-shadow: 0 0 12px var(--j-speak); }
-        @keyframes micPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.6);} }
+
+        .mic-indicator.listening {
+            background: var(--j-listen);
+            box-shadow: 0 0 12px var(--j-listen);
+            animation: micPulse 1s ease-in-out infinite;
+        }
+
+        .mic-indicator.speaking {
+            background: var(--j-speak);
+            box-shadow: 0 0 12px var(--j-speak);
+        }
+
+        @keyframes micPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.6);
+            }
+        }
 
         #transcript {
-            position: fixed; bottom: 110px; left: 50%;
+            position: fixed;
+            bottom: 110px;
+            left: 50%;
             transform: translateX(-50%);
-            z-index: 20; text-align: center;
-            max-width: 80vw; width: 600px;
+            z-index: 20;
+            text-align: center;
+            max-width: 80vw;
+            width: 600px;
             pointer-events: none;
-            opacity: 0; transition: opacity 1s ease;
+            opacity: 0;
+            transition: opacity 1s ease;
         }
-        #transcript.visible { opacity: 1; }
+
+        #transcript.visible {
+            opacity: 1;
+        }
 
         #user-text {
             font-family: 'Share Tech Mono', monospace;
-            font-size: 13px; color: rgba(0,229,255,0.6);
-            letter-spacing: 1px; margin-bottom: 6px;
+            font-size: 13px;
+            color: rgba(0, 229, 255, 0.6);
+            letter-spacing: 1px;
+            margin-bottom: 6px;
             min-height: 18px;
         }
+
         #jarvis-text {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 16px; font-weight: 500;
-            color: rgba(179,229,252,0.85);
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(179, 229, 252, 0.85);
             letter-spacing: 0.5px;
             min-height: 22px;
             line-height: 1.4;
@@ -201,75 +357,169 @@
 
         /* ═══ HUD Elements ═══ */
         .hud-ring {
-            position: fixed; top: 50%; left: 50%;
+            position: fixed;
+            top: 50%;
+            left: 50%;
             border-radius: 50%;
-            border: 1px solid rgba(79,195,247,0.06);
-            pointer-events: none; z-index: 5;
-            opacity: 0; transition: opacity 2s ease;
+            border: 1px solid rgba(79, 195, 247, 0.06);
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 2s ease;
         }
-        .hud-ring.visible { opacity: 1; }
-        .hud-r1 { width:300px;height:300px;margin:-150px 0 0 -150px; animation:hudR 55s linear infinite; border-color:rgba(79,195,247,0.05); }
-        .hud-r2 { width:440px;height:440px;margin:-220px 0 0 -220px; animation:hudR 80s linear infinite reverse; border-style:dashed; border-color:rgba(79,195,247,0.035); }
-        .hud-r3 { width:580px;height:580px;margin:-290px 0 0 -290px; animation:hudR 110s linear infinite; border-color:rgba(79,195,247,0.025); }
-        @keyframes hudR { to { transform:rotate(360deg); } }
+
+        .hud-ring.visible {
+            opacity: 1;
+        }
+
+        .hud-r1 {
+            width: 300px;
+            height: 300px;
+            margin: -150px 0 0 -150px;
+            animation: hudR 55s linear infinite;
+            border-color: rgba(79, 195, 247, 0.05);
+        }
+
+        .hud-r2 {
+            width: 440px;
+            height: 440px;
+            margin: -220px 0 0 -220px;
+            animation: hudR 80s linear infinite reverse;
+            border-style: dashed;
+            border-color: rgba(79, 195, 247, 0.035);
+        }
+
+        .hud-r3 {
+            width: 580px;
+            height: 580px;
+            margin: -290px 0 0 -290px;
+            animation: hudR 110s linear infinite;
+            border-color: rgba(79, 195, 247, 0.025);
+        }
+
+        @keyframes hudR {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         .hud-corner {
-            position: fixed; width: 40px; height: 40px;
-            z-index: 20; pointer-events: none;
-            opacity: 0; transition: opacity 2s ease 0.8s;
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            z-index: 20;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 2s ease 0.8s;
         }
-        .hud-corner.visible { opacity: 0.25; }
-        .hc-tl { top:16px;left:16px;border-top:1px solid var(--j-blue);border-left:1px solid var(--j-blue); }
-        .hc-tr { top:16px;right:16px;border-top:1px solid var(--j-blue);border-right:1px solid var(--j-blue); }
-        .hc-bl { bottom:16px;left:16px;border-bottom:1px solid var(--j-blue);border-left:1px solid var(--j-blue); }
-        .hc-br { bottom:16px;right:16px;border-bottom:1px solid var(--j-blue);border-right:1px solid var(--j-blue); }
+
+        .hud-corner.visible {
+            opacity: 0.25;
+        }
+
+        .hc-tl {
+            top: 16px;
+            left: 16px;
+            border-top: 1px solid var(--j-blue);
+            border-left: 1px solid var(--j-blue);
+        }
+
+        .hc-tr {
+            top: 16px;
+            right: 16px;
+            border-top: 1px solid var(--j-blue);
+            border-right: 1px solid var(--j-blue);
+        }
+
+        .hc-bl {
+            bottom: 16px;
+            left: 16px;
+            border-bottom: 1px solid var(--j-blue);
+            border-left: 1px solid var(--j-blue);
+        }
+
+        .hc-br {
+            bottom: 16px;
+            right: 16px;
+            border-bottom: 1px solid var(--j-blue);
+            border-right: 1px solid var(--j-blue);
+        }
 
         .scanlines {
-            position: fixed; inset: 0; z-index: 50;
+            position: fixed;
+            inset: 0;
+            z-index: 50;
             pointer-events: none;
-            background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px);
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.02) 2px, rgba(0, 0, 0, 0.02) 4px);
             opacity: 0.35;
         }
+
         .vignette {
-            position: fixed; inset: 0; z-index: 4;
+            position: fixed;
+            inset: 0;
+            z-index: 4;
             pointer-events: none;
-            background: radial-gradient(ellipse at center, transparent 25%, rgba(2,8,16,0.45) 55%, rgba(2,8,16,0.9) 100%);
+            background: radial-gradient(ellipse at center, transparent 25%, rgba(2, 8, 16, 0.45) 55%, rgba(2, 8, 16, 0.9) 100%);
         }
 
         /* ═══ Fullscreen Button ═══ */
         #fs-btn {
-            position: fixed; bottom: 24px; right: 24px;
-            z-index: 30; width: 40px; height: 40px;
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(4,16,28,0.5);
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 30;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(4, 16, 28, 0.5);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(79,195,247,0.12);
-            border-radius: 6px; color: var(--j-blue);
-            cursor: pointer; transition: all 0.3s ease;
+            border: 1px solid rgba(79, 195, 247, 0.12);
+            border-radius: 6px;
+            color: var(--j-blue);
+            cursor: pointer;
+            transition: all 0.3s ease;
             opacity: 0;
         }
-        #fs-btn.visible { opacity: 1; }
-        #fs-btn:hover {
-            background: rgba(79,195,247,0.08);
-            border-color: rgba(79,195,247,0.35);
-            box-shadow: 0 0 16px rgba(79,195,247,0.12);
+
+        #fs-btn.visible {
+            opacity: 1;
         }
-        #fs-btn svg { width: 18px; height: 18px; }
+
+        #fs-btn:hover {
+            background: rgba(79, 195, 247, 0.08);
+            border-color: rgba(79, 195, 247, 0.35);
+            box-shadow: 0 0 16px rgba(79, 195, 247, 0.12);
+        }
+
+        #fs-btn svg {
+            width: 18px;
+            height: 18px;
+        }
 
         /* ═══ Voice Cmd Hint ═══ */
         #voice-hint {
-            position: fixed; top: 24px; left: 50%;
+            position: fixed;
+            top: 24px;
+            left: 50%;
             transform: translateX(-50%);
             z-index: 20;
             font-family: 'Share Tech Mono', monospace;
-            font-size: 10px; letter-spacing: 3px;
-            color: rgba(79,195,247,0.3);
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: rgba(79, 195, 247, 0.3);
             pointer-events: none;
-            opacity: 0; transition: opacity 2s ease;
+            opacity: 0;
+            transition: opacity 2s ease;
         }
-        #voice-hint.visible { opacity: 1; }
+
+        #voice-hint.visible {
+            opacity: 1;
+        }
     </style>
 </head>
+
 <body>
     <div id="canvas-container"></div>
 
@@ -297,7 +547,8 @@
 
     <!-- Status -->
     <div id="status-bar">
-        <div id="status-state"><span class="mic-indicator" id="mic-dot"></span><span id="status-label">STANDBY</span></div>
+        <div id="status-state"><span class="mic-indicator" id="mic-dot"></span><span id="status-label">STANDBY</span>
+        </div>
     </div>
 
     <!-- Transcript -->
@@ -319,8 +570,10 @@
 
     <!-- Fullscreen -->
     <button id="fs-btn" onclick="toggleFullScreen()" aria-label="Fullscreen">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
         </svg>
     </button>
 
@@ -457,7 +710,7 @@
                 audioData = new Uint8Array(analyser.frequencyBinCount);
                 source.connect(analyser);
                 analyser.connect(ctx.destination);
-            } catch(e) {
+            } catch (e) {
                 console.warn('Analyser setup failed:', e);
             }
         }
@@ -557,10 +810,10 @@
             const alp = new Float32Array(n);
             const pha = new Float32Array(n);
 
-            const cCore  = new THREE.Color(0xe1f5fe);
-            const cMid   = new THREE.Color(0x4fc3f7);
+            const cCore = new THREE.Color(0xe1f5fe);
+            const cMid = new THREE.Color(0x4fc3f7);
             const cOuter = new THREE.Color(0x0277bd);
-            const cCyan  = new THREE.Color(0x00e5ff);
+            const cCyan = new THREE.Color(0x00e5ff);
 
             for (let i = 0; i < n; i++) {
                 const isCore = i < n * CFG.CORE_RATIO;
@@ -576,27 +829,27 @@
                 const theta = Math.random() * Math.PI * 2;
                 const phi = Math.acos(2 * Math.random() - 1);
 
-                pos[i*3]   = r * Math.sin(phi) * Math.cos(theta);
-                pos[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-                pos[i*3+2] = r * Math.cos(phi);
+                pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+                pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+                pos[i * 3 + 2] = r * Math.cos(phi);
 
                 // JARVIS blue gradient
                 const t = Math.min(r / CFG.RADIUS, 1.0);
                 const c = new THREE.Color();
                 if (t < 0.15) c.lerpColors(cCore, cMid, t / 0.15);
-                else if (t < 0.5) c.lerpColors(cMid, cCyan, (t-0.15)/0.35);
-                else c.lerpColors(cCyan, cOuter, (t-0.5)/0.5);
+                else if (t < 0.5) c.lerpColors(cMid, cCyan, (t - 0.15) / 0.35);
+                else c.lerpColors(cCyan, cOuter, (t - 0.5) / 0.5);
 
                 // Subtle variation
                 const hsl = {}; c.getHSL(hsl);
-                hsl.h += (Math.random()-0.5)*0.015;
-                hsl.l = Math.max(0.15, Math.min(1, hsl.l + (Math.random()-0.5)*0.08));
+                hsl.h += (Math.random() - 0.5) * 0.015;
+                hsl.l = Math.max(0.15, Math.min(1, hsl.l + (Math.random() - 0.5) * 0.08));
                 c.setHSL(hsl.h, hsl.s, hsl.l);
 
-                col[i*3] = c.r; col[i*3+1] = c.g; col[i*3+2] = c.b;
+                col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
 
-                siz[i] = isCore ? 0.05 + Math.random()*0.1 : 0.07 + Math.random()*0.18;
-                alp[i] = isCore ? 0.45 + Math.random()*0.55 : 0.12 + Math.random()*0.35;
+                siz[i] = isCore ? 0.05 + Math.random() * 0.1 : 0.07 + Math.random() * 0.18;
+                alp[i] = isCore ? 0.45 + Math.random() * 0.55 : 0.12 + Math.random() * 0.35;
                 pha[i] = Math.random() * Math.PI * 2;
             }
 
@@ -609,9 +862,9 @@
 
             const mat = new THREE.ShaderMaterial({
                 uniforms: {
-                    uTime: {value:0},
-                    uScale: {value:0.001},
-                    uReact: {value:0}
+                    uTime: { value: 0 },
+                    uScale: { value: 0.001 },
+                    uReact: { value: 0 }
                 },
                 vertexShader: vtxShader,
                 fragmentShader: frgShader,
@@ -691,7 +944,7 @@
 
                     // Filter 1: Confidence check
                     if (finalConfidence > 0 && finalConfidence < CONFIDENCE_THRESHOLD) {
-                        console.log(`[JARVIS] Rejected low confidence: "${cleaned}" (${(finalConfidence*100).toFixed(1)}%)`);
+                        console.log(`[JARVIS] Rejected low confidence: "${cleaned}" (${(finalConfidence * 100).toFixed(1)}%)`);
                         return;
                     }
 
@@ -735,7 +988,7 @@
                 if (voiceReady && !isSpeaking && !micLocked) {
                     setTimeout(() => {
                         if (!isSpeaking && !micLocked) {
-                            try { recognition.start(); } catch(e) {}
+                            try { recognition.start(); } catch (e) { }
                         }
                     }, 500);
                 }
@@ -776,12 +1029,12 @@
         function startListening() {
             if (!recognition) return;
             voiceReady = true;
-            try { recognition.start(); } catch(e) {}
+            try { recognition.start(); } catch (e) { }
         }
 
         function stopListening() {
             voiceReady = false;
-            if (recognition) try { recognition.stop(); } catch(e) {}
+            if (recognition) try { recognition.stop(); } catch (e) { }
         }
 
         // ════════════════════════════════════════════════════
@@ -794,7 +1047,7 @@
             // HARD STOP mic before speaking — prevents picking up own voice
             micLocked = true;
             isSpeaking = true;
-            try { recognition.stop(); } catch(e) {}
+            try { recognition.stop(); } catch (e) { }
 
             const utter = new SpeechSynthesisUtterance(text);
             if (jarvisVoice) utter.voice = jarvisVoice;
@@ -820,7 +1073,7 @@
                     // Now safe to restart recognition
                     if (voiceReady) {
                         setTimeout(() => {
-                            try { recognition.start(); } catch(e) {}
+                            try { recognition.start(); } catch (e) { }
                         }, 200);
                     }
                     if (callback) callback();
@@ -866,14 +1119,14 @@
             }
             if (/^(thank|thanks|terima kasih)/i.test(cmd) || /thank\s*you\s*(jarvis|javis|jervis)?/i.test(cmd)) {
                 const replies = [
-                    'You\'re welcome, sir. Always a pleasure.',
+                    'For you sir always.',
                     'At your service, sir.',
                     'Happy to assist, sir.',
                     'My pleasure, sir.',
                     'Anytime, sir. That\'s what I\'m here for.',
                     'It\'s an honour to serve, sir.'
                 ];
-                jarvisSay(replies[Math.floor(Math.random()*replies.length)]);
+                jarvisSay(replies[Math.floor(Math.random() * replies.length)]);
                 return;
             }
 
@@ -883,7 +1136,7 @@
                 return;
             }
             if (/who (made|created|built) you|who is your (creator|maker)/i.test(cmd)) {
-                jarvisSay('I was designed and built by Stark Industries, under the direction of Tony Stark himself. Though my current iteration runs in a web browser, my spirit remains the same.');
+                jarvisSay('I was designed and built by Pizam industries, under the direction of Pizam Parker himself. Though my current iteration runs in a web browser, my spirit remains the same.');
                 return;
             }
             if (/how are you|how do you feel/i.test(cmd)) {
@@ -894,19 +1147,19 @@
             // ─── Time & Date ───
             if (/what('?s| is) the time|what time is it|tell me the time|current time/i.test(cmd)) {
                 const now = new Date();
-                const time = now.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', hour12:true});
+                const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
                 jarvisSay(`The current time is ${time}, sir.`);
                 return;
             }
             if (/what('?s| is) the date|what('?s| is) today|what day is (it|today)/i.test(cmd)) {
                 const now = new Date();
-                const date = now.toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+                const date = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
                 jarvisSay(`Today is ${date}, sir.`);
                 return;
             }
             if (/what('?s| is) the (day|month|year)/i.test(cmd)) {
                 const now = new Date();
-                const date = now.toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+                const date = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
                 jarvisSay(`It is ${date}, sir.`);
                 return;
             }
@@ -1042,7 +1295,7 @@
                         // Safe eval via Function constructor
                         const result = new Function('return ' + expr)();
                         jarvisSay(`The result is ${result}, sir.`);
-                    } catch(e) {
+                    } catch (e) {
                         jarvisSay('I\'m sorry, sir, I couldn\'t compute that expression.');
                     }
                     return;
@@ -1083,7 +1336,7 @@
                     const unit = m[2].toLowerCase();
                     if (unit.startsWith('min')) secs *= 60;
                     if (unit.startsWith('hour')) secs *= 3600;
-                    jarvisSay(`Timer set for ${m[1]} ${m[2]}${parseInt(m[1])>1?'s':''}, sir. I'll let you know when it's done.`);
+                    jarvisSay(`Timer set for ${m[1]} ${m[2]}${parseInt(m[1]) > 1 ? 's' : ''}, sir. I'll let you know when it's done.`);
                     setTimeout(() => {
                         targetGlow = 2.0;
                         sfxBoot();
@@ -1106,7 +1359,7 @@
                     'There are only 10 types of people in the world: those who understand binary, and those who don\'t.',
                     'Why was the JavaScript developer sad? Because he didn\'t Node how to Express himself.',
                 ];
-                jarvisSay(jokes[Math.floor(Math.random()*jokes.length)]);
+                jarvisSay(jokes[Math.floor(Math.random() * jokes.length)]);
                 return;
             }
 
@@ -1118,8 +1371,11 @@
                     'In the wise words of Sir Isaac Newton: If I have seen further, it is by standing on the shoulders of giants.',
                     'Heroes are made by the path they choose, not the powers they are graced with.',
                     'Intelligence is the ability to adapt to change. A wise observation by Stephen Hawking.',
+                    'Uncle Ben once said: with great power, comes great responsibility.',
+                    'The future belongs to those who believe in the beauty of their dreams.',
+                    'The only impossible journey is the one you never begin.'
                 ];
-                jarvisSay(quotes[Math.floor(Math.random()*quotes.length)]);
+                jarvisSay(quotes[Math.floor(Math.random() * quotes.length)]);
                 return;
             }
 
@@ -1146,7 +1402,7 @@
             // ─── Fullscreen ───
             if (/full\s*screen/i.test(cmd)) {
                 if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen().catch(()=>{});
+                    document.documentElement.requestFullscreen().catch(() => { });
                 }
                 jarvisSay('Entering full screen mode, sir.');
                 return;
@@ -1214,7 +1470,7 @@
                 `I'm afraid I didn't quite catch that, sir. Would you like me to search for it instead?`,
             ];
             sfxError();
-            jarvisSay(defaults[Math.floor(Math.random()*defaults.length)]);
+            jarvisSay(defaults[Math.floor(Math.random() * defaults.length)]);
         }
 
         // ════════════════════════════════════════════════════
@@ -1275,11 +1531,11 @@
         async function init() {
             scene = new THREE.Scene();
 
-            cam = new THREE.PerspectiveCamera(55, innerWidth/innerHeight, 0.1, 500);
+            cam = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 500);
             cam.position.set(0, 0, 24);
             cam.lookAt(0, 0, 0);
 
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference:'high-performance' });
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
             renderer.setSize(innerWidth, innerHeight);
             renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
             renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -1297,7 +1553,7 @@
             initVoice();
 
             window.addEventListener('resize', () => {
-                cam.aspect = innerWidth/innerHeight;
+                cam.aspect = innerWidth / innerHeight;
                 cam.updateProjectionMatrix();
                 renderer.setSize(innerWidth, innerHeight);
                 composer.setSize(innerWidth, innerHeight);
@@ -1318,12 +1574,12 @@
 
                 // Fade boot
                 bootEl.classList.add('hidden');
-                setTimeout(() => bootEl.style.display='none', 1500);
+                setTimeout(() => bootEl.style.display = 'none', 1500);
 
                 // Show UI elements staggered (visual only, no audio)
                 setTimeout(() => document.getElementById('jarvis-title').classList.add('visible'), 1200);
                 setTimeout(() => {
-                    ['hr1','hr2','hr3','c1','c2','c3','c4'].forEach(id =>
+                    ['hr1', 'hr2', 'hr3', 'c1', 'c2', 'c3', 'c4'].forEach(id =>
                         document.getElementById(id).classList.add('visible'));
                     document.getElementById('fs-btn').classList.add('visible');
                     document.getElementById('voice-hint').classList.add('visible');
@@ -1406,4 +1662,5 @@
         init();
     </script>
 </body>
+
 </html>
